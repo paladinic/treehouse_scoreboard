@@ -1,14 +1,19 @@
 import React from "react";
 import Counter from "./Counter";
+import Crown from "./Crown";
 
 // react component for players
 function Player(props){
+    console.log(props.winner)
     return (
         <div className='player'>
             <button 
                 onClick={() => props.removePlayer(props.id)} 
                 className="delete_player_btn">&#10060;
             </button>
+            <Crown
+                winner = {props.winner}
+            />
             <span className="player_name">
                 {props.name}
             </span>

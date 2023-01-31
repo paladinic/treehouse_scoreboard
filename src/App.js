@@ -11,23 +11,27 @@ function App(){
       {
         name: "Guil",
         id:1,
-        score:0
+        score:0,
+        winner:false
       },
       {
         name: "Treasure",
         id:2,
-        score:0
+        score:0,
+        winner:false
       },
       {
         name: "Ashley",
         id:3,
-        score:0
+        score:0,
+        winner:false
       },
       {
         name: "James",
         id:4,
-        score:0
-        }]);
+        score:0,
+        winner:false
+      }]);
 
     const removePlayer = (id) =>{
         setPlayers( prevState => prevState.filter( p => p.id !== id));
@@ -56,19 +60,44 @@ function App(){
     }
 
     const change_score = (id,delta) => {
-        setPlayers( prevState => prevState.map(p => {
+
+      // update score
+      let ps = players.map(p => {
           if(p.id === id){
             return {
               name : p.name,
               score : p.score + delta,
-              id: p.id
+              id: p.id,
+              winner: p.winner
             }
           }
           return p
-        }));
+        });
+      
+        // get max score
+        let max_score = ps.reduce((max,current) => current.score > max.score ? current : max).score;
+        
+        // update crown
+        ps.map(p => {
+          if(p.score == max_score){
+            return {
+              name : p.name,
+              score : p.score,
+              id: p.id,
+              winner: true
+            }
+          }
+          else{
+            return {
+              name : p.name,
+              score : p.score,
+              id: p.id,
+              winner: false
+            }
+          }
+        });
 
-        // console.log(id,' - ',delta);
-
+        setPlayers(ps);
     }
 
     return(
@@ -88,6 +117,7 @@ function App(){
                     name = {player.name}
                     key = {player.id.toString()}
                     score = {player.score}
+                    winner  = {player.winner}
                 />
             )}
 
