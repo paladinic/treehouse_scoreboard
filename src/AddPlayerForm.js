@@ -1,16 +1,28 @@
 import React from "react";
 
-
-// react component for players
 function AddPlayerForm(props){
 
-    const [value, setValue] = React.useState('');
+    // HOOK
+    // const [value, setValue] = React.useState('');
+    
+    // REF HOOK
+    const player_input = React.useRef()
 
+    //control component, state controlled internally
     const handleSubmit = (event) => {
+
+        // using REF HOOK
+        let value = player_input.current.value;
+
         event.preventDefault(); //prevent reload and state loss
         if(value !== ""){
             props.addPlayer(value);
-            setValue("");
+            
+            // reset value after submit:
+            // - HOOK:
+            // setValue("");
+            // - REF HOOK:
+            event.currentTarget.reset(); 
         }
     }
 
@@ -21,14 +33,17 @@ function AddPlayerForm(props){
             <input 
                 type="text" 
                 placeholder="player name"
-                onChange={(event) => setValue(event.target.value)} 
-                className="add_player_btn"
-                value = {value}
+                // REF HOOK
+                ref = {player_input}
+                // HOOK
+                // onChange={(event) => setValue(event.target.value)} 
+                // value = {value}
                 >
             </input>
             <input 
                 type = "submit"
                 value = "Add Player"
+                className="add_player_btn"
                 >
             </input>
         </form>

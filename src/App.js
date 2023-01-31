@@ -33,14 +33,16 @@ function App(){
         setPlayers( prevState => prevState.filter( p => p.id !== id));
     }
 
-    const [nextPlayerId,setNextPlayerId] = React.useState(5);
+    // const [nextPlayerId,setNextPlayerId] = React.useState(5);
+    const nextPlayerId = React.useRef(5);
+
 
     const addPlayer = (name) =>{
       
       let new_player = {
         name:name,
         score:0,
-        id: nextPlayerId
+        id: nextPlayerId.current++ // REF HOOK
       }
       
       setPlayers(
@@ -49,7 +51,8 @@ function App(){
             ]
         );
 
-      setNextPlayerId(prevId => prevId + 1)
+      // HOOK
+      // setNextPlayerId(prevId => prevId + 1)
     }
 
     const change_score = (id,delta) => {
