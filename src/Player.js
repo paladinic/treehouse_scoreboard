@@ -4,7 +4,7 @@ import Crown from "./Crown";
 
 // react component for players
 function Player(props){
-    console.log(props.winner)
+    // console.log(props.winner)
     return (
         <div className='player'>
             <button 
@@ -28,7 +28,7 @@ function Player(props){
 
 // memo for rendering efficiency
 function prevPlayer(prev,next){
-    return prev.score === next.score;
+    return prev.score === next.score && prev.winner === next.winner;
 }    
 
 export default React.memo(Player,prevPlayer);

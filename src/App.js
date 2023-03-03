@@ -31,10 +31,10 @@ function App(){
         id:4,
         score:0,
         winner:false
-      }]);
+    }]);
 
     const removePlayer = (id) =>{
-        setPlayers( prevState => prevState.filter( p => p.id !== id));
+        setPlayers( prevState => update_scores(prevState.filter( p => p.id !== id),0,0));
     }
 
     // const [nextPlayerId,setNextPlayerId] = React.useState(5);
@@ -59,45 +59,51 @@ function App(){
       // setNextPlayerId(prevId => prevId + 1)
     }
 
-    const change_score = (id,delta) => {
+    const update_scores = (ps,id,delta) => {
 
       // update score
-      let ps = players.map(p => {
-          if(p.id === id){
-            return {
-              name : p.name,
-              score : p.score + delta,
-              id: p.id,
-              winner: p.winner
+      ps = ps.map(p => {
+            if(p.id === id){
+              return {
+                name : p.name,
+                score : p.score + delta,
+                id: p.id,
+                winner: p.winner
+              }
             }
-          }
-          return p
-        });
-      
-        // get max score
-        let max_score = ps.reduce((max,current) => current.score > max.score ? current : max).score;
-        
-        // update crown
-        ps.map(p => {
-          if(p.score == max_score){
-            return {
-              name : p.name,
-              score : p.score,
-              id: p.id,
-              winner: true
-            }
-          }
-          else{
-            return {
-              name : p.name,
-              score : p.score,
-              id: p.id,
-              winner: false
-            }
-          }
-        });
+            return p
+      });
+    
+      // get max score
+      let max_score = ps.reduce((max,current) => current.score > max.score ? current : max).score;
 
-        setPlayers(ps);
+      // update crown
+      ps = ps.map(p => {
+        if(p.score === max_score && p.score > 0){
+          return {
+            name : p.name,
+            score : p.score,
+            id: p.id,
+            winner: true
+          }
+        }
+        else{
+          return {
+            name : p.name,
+            score : p.score,
+            id: p.id,
+            winner: false
+          }
+        }
+      });
+
+      return ps
+    }
+
+    const change_score = (id,delta) => {
+
+      setPlayers(prevState => update_scores(prevState,id,delta))
+      
     }
 
     return(

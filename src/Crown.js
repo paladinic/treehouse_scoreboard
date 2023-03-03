@@ -5,14 +5,16 @@ function Crown(props){
     let crown;
 
     if(props.winner){
-        crown = "WINNING"
+        crown = "block"
     }
     else{
-        crown = "_______"
+        crown = "none"
     }
 
     return(
-        <span>{crown}</span>
+        <span style={{"display":crown}}>
+            Winning
+        </span>
     )
 }
 
